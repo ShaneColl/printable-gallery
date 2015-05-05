@@ -82,3 +82,34 @@ function pg_table_data(/*TODO int size*/){
          $data = implode( $tableColumns );
          return $data;
 }
+
+function pg_settings_api() {
+
+add_settings_section('pg_setttings_section',
+	'Printable Gallery Settings',
+	'pg_settings_section_callback_function',
+	'media');
+
+add_settings_field('pg_gallery_name',
+	'Gallery Name',
+	'pg_settings_gallery_name_callback',
+	'media',
+	'pg_settings_section');
+
+register_setting('media', 'pg_gallery_name');
+
+
+}
+
+add_action('admin_init', 'pg_settings_api');
+
+function pg_settings_section_callback_function(){
+	echo '<p>Set up your printable Gallery</p>';
+}
+
+function pg_settings_gallery_name_callback(){
+//TODO write text field	
+
+
+
+}
