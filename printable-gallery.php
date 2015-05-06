@@ -85,31 +85,51 @@ function pg_table_data(/*TODO int size*/){
 
 function pg_settings_api() {
 
-add_settings_section('pg_setttings_section',
+add_settings_section('pg_settings_section',
 	'Printable Gallery Settings',
 	'pg_settings_section_callback_function',
 	'media');
 
 add_settings_field('pg_gallery_name',
-	'Gallery Name',
+	'Gallery Name:',
 	'pg_settings_gallery_name_callback',
 	'media',
 	'pg_settings_section');
 
+add_settings_field('pg_rows_number',
+	'Rows of images:',
+	'pg_settings_rows_num_callback',
+	'media',
+	'pg_settings_section');
+
+add_settings_field('pg_columns_number',
+        'Columns of images:',
+        'pg_settings_columns_num_callback',
+        'media',
+        'pg_settings_section');
+
+register_setting('media', 'pg_columns_number');
 register_setting('media', 'pg_gallery_name');
-
-
+register_setting('media', 'pg_rows_number');
 }
 
 add_action('admin_init', 'pg_settings_api');
 
 function pg_settings_section_callback_function(){
-	echo '<p>Set up your printable Gallery</p>';
+	echo '<p>Set up your Printable Gallery</p>';
 }
 
+function pg_settings_rows_num_callback(){
+	echo '<input name="pg_rows_number" type="number" value="' . get_option('pg_rows_number') . '"  max="10"/>';
+	$rows_num = get_option('pg_rows_number');
+}
+
+function pg_settings_columns_num_callback(){
+	echo '<input name="pg_columns_number" type="text" value="' . get_option('pg_columns_number') . '" maxlength="10"/>';
+	$columns_num = get_option('pg_columns_number');
+}
+
+
 function pg_settings_gallery_name_callback(){
-//TODO write text field	
-
-
-
+	echo '<input name="pg_gallery_name" type="text" value="' . get_option('pg_gallery_name') . '"  maxlength="20"/>';
 }
