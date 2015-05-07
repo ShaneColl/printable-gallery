@@ -49,11 +49,11 @@ function pg_exist_post_by_title( $title_str ) {
  * Generates the body of the table. 
  *
  * @since 0.1 
- * @param TODO int $rows the user input number of rows 
+ * @param TODO Set default values for no option recall 
  * @return string $tableBody the body of the table 
  */
-function pg_table_body( /*TODO int size*/  ) { 
-	 $rows = 4;//TODO make this equal the parameter
+function pg_table_body() { 
+	 $rows = get_option('pg_rows_number');
 
 	 for( $i = 0; $i < $rows; $i++ ){ 
                	$tableRows[$i]=  "<tr>" .
@@ -68,11 +68,11 @@ function pg_table_body( /*TODO int size*/  ) {
  * Generates the columns of the table and insets their data. 
  *
  * @since 0.1 
- * @param TODO int $columns the user input number of rows 
+ * @param TODO Set default values for no option recall 
  * @return string $data the data of each cell 
  */
-function pg_table_data(/*TODO int size*/){ 
-         $columns = 4;//TODO make this equal the parameter
+function pg_table_data(){ 
+         $columns = get_option('pg_columns_number');
 
          for( $i = 0; $i < $columns; $i++ ){ 
                 $tableColumns[$i]=  "<td>
@@ -121,12 +121,10 @@ function pg_settings_section_callback_function(){
 
 function pg_settings_rows_num_callback(){
 	echo '<input name="pg_rows_number" type="number" value="' . get_option('pg_rows_number') . '"  max="10"/>';
-	$rows_num = get_option('pg_rows_number');
 }
 
 function pg_settings_columns_num_callback(){
-	echo '<input name="pg_columns_number" type="text" value="' . get_option('pg_columns_number') . '" maxlength="10"/>';
-	$columns_num = get_option('pg_columns_number');
+	echo '<input name="pg_columns_number" type="number" value="' . get_option('pg_columns_number') . '" max="10"/>';
 }
 
 
