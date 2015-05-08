@@ -8,7 +8,10 @@ Author:      Shane W. Coll
 Author URI:  http://shanecoll.com
 */
 
-//TODO IMPLEMENT OBJECT ORIENTATION
+
+if(pg_exist_post_by_title('Table Page' ) == NULL ){
+add_action('init', 'pg_generateTable' );
+}
 
 /**
  * Generates a table according to user specs and inserts it into a new post. 
@@ -17,7 +20,6 @@ Author URI:  http://shanecoll.com
  * @return void
  */
 function pg_generateTable( ) { 
-	if(pg_exist_post_by_title('Table Page' ) == NULL ){
         //Creating the $post array
         $post = array( 
                 'post_title'  => 'Table Page',
@@ -27,8 +29,8 @@ function pg_generateTable( ) {
                                   . "</tbody>
                                   </table>" 
         ); wp_insert_post(  $post );
-	}
 }
+
 /**
  * Check whether or not the table page already exists. 
  *
@@ -51,12 +53,7 @@ function pg_exist_post_by_title( $title_str ) {
  * @return string $tableBody the body of the table 
  */
 function pg_table_body() { 
-	if(get_option('pg_rows_number') == NULL){
-		$rows= 4;
-	}
-	else {
-		$rows= get_option('pg_rows_number');
-	}
+	 $rows = get_option('pg_rows_number');
 
 	 for( $i = 0; $i < $rows; $i++ ){ 
                	$tableRows[$i]=  "<tr>" .
@@ -75,13 +72,8 @@ function pg_table_body() {
  * @return string $data the data of each cell 
  */
 function pg_table_data(){ 
-	if(get_option('pg_columns_number') == NULL){
-		$columns = 4;
-	}
-	else {
-		$columns = get_option('pg_columns_number');
-	}
-	
+         $columns = get_option('pg_columns_number');
+
          for( $i = 0; $i < $columns; $i++ ){ 
                 $tableColumns[$i]=  "<td>
 				    Picture will go here
@@ -119,7 +111,6 @@ add_settings_field('pg_columns_number',
 register_setting('media', 'pg_columns_number');
 register_setting('media', 'pg_gallery_name');
 register_setting('media', 'pg_rows_number');
-pg_generateTable();
 }
 
 add_action('admin_init', 'pg_settings_api');
@@ -129,27 +120,14 @@ function pg_settings_section_callback_function(){
 }
 
 function pg_settings_rows_num_callback(){
-	if(get_option('pg_rows_number') == NULL){
-		echo '<input name="pg_rows_number" type="number" value="4" max="10"/>';
-	}
-	else {
-		echo '<input name="pg_rows_number" type="number" value="' . get_option('pg_rows_number') . '" max="10"/>';
-	}		
+	echo '<input name="pg_rows_number" type="number" value="' . get_option('pg_rows_number') . '"  max="10"/>';
 }
 
 function pg_settings_columns_num_callback(){
-	if(get_option('pg_columns_number') == NULL){
-		echo '<input name="pg_columns_number" type="number" value="4" max="10"/>';
-	}
-	else {
-		echo '<input name="pg_columns_number" type="number" value="' . get_option('pg_columns_number') . '" max="10"/>';
-	}		
+	echo '<input name="pg_columns_number" type="number" value="' . get_option('pg_columns_number') . '" max="10"/>';
 }
+
+
 function pg_settings_gallery_name_callback(){
-	if(get_option('pg_gallery_name') == NULL){
-		echo '<input name="pg_gallery_name" type="text" value="Gallery Name" maxlength="20"/>';
-	}
-	else {
-		echo '<input name="pg_gallery_name" type="text" value="' . get_option('pg_gallery_name') . '" maxlength="20"/>';
-	}		
+	echo '<input name="pg_gallery_name" type="text" value="' . get_option('pg_gallery_name') . '"  maxlength="20"/>';
 }
