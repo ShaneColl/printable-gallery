@@ -3,7 +3,7 @@
 Plugin Name: Printable Gallery 
 Plugin URI:  TODO             
 Description: Generates a table of images where users can select individual images to be printed .
-Version:     0.1
+Version:     0.2
 Author:      Shane W. Coll
 Author URI:  http://shanecoll.com
 */
@@ -91,6 +91,11 @@ function pg_table_data(){
          return $data;
 }
 
+/**
+ * Generates the settings page and handles user input. 
+ *
+ * @since 0.1 
+ */
 function pg_settings_api() {
 
 add_settings_section('pg_settings_section',
@@ -124,10 +129,22 @@ pg_generateTable();
 
 add_action('admin_init', 'pg_settings_api');
 
+/**
+ * Prints message in the Gallery settings section 
+ *
+ * @since 0.1 
+ */
 function pg_settings_section_callback_function(){
 	echo '<p>Set up your Printable Gallery</p>';
 }
 
+/**
+ * Generates the rows field 
+ *
+ * If there is no option value, the it displays "4" as the default value
+ * 
+ * @since 0.1 
+ */
 function pg_settings_rows_num_callback(){
 	if(get_option('pg_rows_number') == NULL){
 		echo '<input name="pg_rows_number" type="number" value="4" max="10"/>';
@@ -137,6 +154,13 @@ function pg_settings_rows_num_callback(){
 	}		
 }
 
+/**
+ * Generates the columns field 
+ *
+ * If there is no option value, the it displays "4" as the default value
+ * 
+ * @since 0.1 
+ */
 function pg_settings_columns_num_callback(){
 	if(get_option('pg_columns_number') == NULL){
 		echo '<input name="pg_columns_number" type="number" value="4" max="10"/>';
@@ -145,6 +169,14 @@ function pg_settings_columns_num_callback(){
 		echo '<input name="pg_columns_number" type="number" value="' . get_option('pg_columns_number') . '" max="10"/>';
 	}		
 }
+
+/**
+ * Generates the gallery name field 
+ *
+ * If there is no option value, the it displays "Gallery Name" as the default value
+ * 
+ * @since 0.1 
+ */
 function pg_settings_gallery_name_callback(){
 	if(get_option('pg_gallery_name') == NULL){
 		echo '<input name="pg_gallery_name" type="text" value="Gallery Name" maxlength="20"/>';
