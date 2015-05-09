@@ -6,7 +6,7 @@ Description: Generates a table of images where users can select individual image
 Version:     0.2
 Author:      Shane W. Coll
 Author URI:  http://shanecoll.com
-*/
+ */
 
 //TODO IMPLEMENT OBJECT ORIENTATION
 
@@ -18,15 +18,15 @@ Author URI:  http://shanecoll.com
  */
 function pg_generateTable( ) { 
 	if(pg_exist_post_by_title('Table Page' ) == NULL ){
-        //Creating the $post array
-        $post = array( 
-                'post_title'  => 'Table Page',
-                'post_content'=> "<table>
-                                  <tbody>" .
-                                   pg_table_body() 
-                                  . "</tbody>
-                                  </table>" 
-        ); wp_insert_post(  $post );
+		//Creating the $post array
+		$post = array( 
+			'post_title'  => 'Table Page',
+			'post_content'=> "<table>
+			<tbody>" .
+			pg_table_body() 
+			. "</tbody>
+			</table>" 
+		); wp_insert_post(  $post );
 	}
 }
 /**
@@ -39,8 +39,8 @@ function pg_generateTable( ) {
  * @return void
  */
 function pg_exist_post_by_title( $title_str ) {  
-        global $wpdb;
-        return $wpdb->get_row(  "SELECT * FROM wp_posts WHERE post_title = '" . $title_str . "'", 'ARRAY_A');
+	global $wpdb;
+	return $wpdb->get_row(  "SELECT * FROM wp_posts WHERE post_title = '" . $title_str . "'", 'ARRAY_A');
 }
 
 /**
@@ -58,13 +58,13 @@ function pg_table_body() {
 		$rows= get_option('pg_rows_number');
 	}
 
-	 for( $i = 0; $i < $rows; $i++ ){ 
-               	$tableRows[$i]=  "<tr>" .
-				pg_table_data() 
-                	       . "</tr>";	
-	 }
-	 $tableBody = implode( $tableRows );
-	 return $tableBody;
+	for( $i = 0; $i < $rows; $i++ ){ 
+		$tableRows[$i]=  "<tr>" .
+			pg_table_data() 
+			. "</tr>";	
+	}
+	$tableBody = implode( $tableRows );
+	return $tableBody;
 }
 
 /**
@@ -81,14 +81,14 @@ function pg_table_data(){
 	else {
 		$columns = get_option('pg_columns_number');
 	}
-	
-         for( $i = 0; $i < $columns; $i++ ){ 
-                $tableColumns[$i]=  "<td>
-				    Picture will go here
-                              	     </td>";       
-         }
-         $data = implode( $tableColumns );
-         return $data;
+
+	for( $i = 0; $i < $columns; $i++ ){ 
+		$tableColumns[$i]=  "<td>
+			Picture will go here
+			</td>";       
+	}
+	$data = implode( $tableColumns );
+	return $data;
 }
 
 /**
@@ -98,33 +98,33 @@ function pg_table_data(){
  */
 function pg_settings_api() {
 
-add_settings_section('pg_settings_section',
-	'Printable Gallery Settings',
-	'pg_settings_section_callback_function',
-	'media');
+	add_settings_section('pg_settings_section',
+		'Printable Gallery Settings',
+		'pg_settings_section_callback_function',
+		'media');
 
-add_settings_field('pg_gallery_name',
-	'Gallery Name:',
-	'pg_settings_gallery_name_callback',
-	'media',
-	'pg_settings_section');
+	add_settings_field('pg_gallery_name',
+		'Gallery Name:',
+		'pg_settings_gallery_name_callback',
+		'media',
+		'pg_settings_section');
 
-add_settings_field('pg_rows_number',
-	'Rows of images:',
-	'pg_settings_rows_num_callback',
-	'media',
-	'pg_settings_section');
+	add_settings_field('pg_rows_number',
+		'Rows of images:',
+		'pg_settings_rows_num_callback',
+		'media',
+		'pg_settings_section');
 
-add_settings_field('pg_columns_number',
-        'Columns of images:',
-        'pg_settings_columns_num_callback',
-        'media',
-        'pg_settings_section');
+	add_settings_field('pg_columns_number',
+		'Columns of images:',
+		'pg_settings_columns_num_callback',
+		'media',
+		'pg_settings_section');
 
-register_setting('media', 'pg_columns_number');
-register_setting('media', 'pg_gallery_name');
-register_setting('media', 'pg_rows_number');
-pg_generateTable();
+	register_setting('media', 'pg_columns_number');
+	register_setting('media', 'pg_gallery_name');
+	register_setting('media', 'pg_rows_number');
+	pg_generateTable();
 }
 
 add_action('admin_init', 'pg_settings_api');
