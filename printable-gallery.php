@@ -3,7 +3,7 @@
 Plugin Name: Printable Gallery 
 Plugin URI:  TODO             
 Description: Generates a table of images where users can select individual images to be printed .
-Version:     0.2
+Version:     0.3
 Author:      Shane W. Coll
 Author URI:  http://shanecoll.com
  */
