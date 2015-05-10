@@ -41,7 +41,7 @@ function pg_settings_api() {
 	register_setting('media', 'pg_columns_number');
 	register_setting('media', 'pg_gallery_name');
 	register_setting('media', 'pg_rows_number');
-	PG_FUNCTIONS::pg_generateTable();
+	PG_TABLE::pg_generateTable();
 }
 /**
  * Prints message in the Gallery settings section 

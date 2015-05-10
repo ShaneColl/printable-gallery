@@ -13,8 +13,11 @@ Author URI:  http://shanecoll.com
 //Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-require_once "includes/class-pg-functions.php";
+if( ! class_exists( 'Printable_Gallery' ) ) :
+
+	require_once "includes/class-pg-table.php";
 require_once "includes/settings.php";
+
 /**
  * Main Printable_Gallery Class
  *
@@ -25,19 +28,43 @@ class Printable_Gallery {
 
 	private static $instance;
 
-	public static function instance() {
+	static function instance() {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Printable_Gallery ) ) {
 
-		self::$instance = new Printable_Gallery;
+			self::$instance = new Printable_Gallery;
 
-		add_action('admin_init', 'pg_settings_api');
+			add_action('admin_init', 'pg_settings_api');
 
-		self::$instance->functions = new PG_FUNCTIONS(); 
+			self::$instance->table = new PG_TABLE(); 
+		}
+		return self::$instance;
+	}
+
+	private function setup_constants() {
+		//Plugin folder path
+		if ( ! defined( 'PG_PLUGIN_DIR' ) ) {
+			define( 'PG_PLUGIN_DIR', plugin_dir_path(__FILE__ ) );
+		}
+
+
+
+	}
+	
+	private function includes() {
+
+		require_once PG_PLUGIN_DIR . "includes/class-pg-table.php";
+
+		require_once PG_PLUGIN_DIR . "includes/settings.php";
+
+
 
 	}
 }
 
+endif;
+
 function PG() {
-	 Printable_Gallery::instance();
+	Printable_Gallery::instance();
 }
 
 PG();
